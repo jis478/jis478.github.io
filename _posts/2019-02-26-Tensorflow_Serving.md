@@ -2,7 +2,9 @@
 title: "Tensorflow Saving / Tensorflow Serving 정리"   
 ---
 
-1. Saving
+1. Tensorflow Saving
+--------------------------
+
 Tensorflow에서 Save를 한다는 것의 의미는 무엇인가?
 기본적으로 Tensorflow의 모든 entities는 Protobuf record라는 형식으로 저장/로딩이 된다. Protobuf는 기본적으로는 binary 포맷으로 만들어졌으며, 구글에서 분산처리 시스템에서 통신을 위해 주로 쓰고 있는 파일 형식이다.
 이러한 Protobuf record가 디스크에 저장될 때는 Serialized Protobuf record 형식으로 .pb (binary format) 또는 .pbtxt (text format)으로 저장이 된다.
@@ -36,7 +38,8 @@ SaveModel을 쓸 경우 장점을 정리해보면,
 
 
 
-2. Serving
+2. Tensorflow Serving
+-------------------------
 Tensorflow Serving 이란 무엇인가? 모델 배포 시에 이미지 배포하는지?
 Host (판정서버) 와 Client (판정대상)를 분리하여 실제 양산 환경에서 보다 효율적으로 모델을 배포 (Serving)할 수 있는 Tensorflow 공식 추천 모델 배포 방식이다. Cloud 환경에서 모델을 생성 및 배포 할 경우에 최적화 되어있는 방법으로, AWS, Google Cloud 를 비롯한 다양한 Google 내부 서비스에서 실제 모델을 배포/관리하는데 사용되고 있으며, 주로 기능은 아래와 같다.
 -	Model life-cycle 관리
@@ -54,20 +57,21 @@ Client는 C++, Python, REST API 등 다양하게 API 호출이 가능 함
 
  
 TF Serving 주요 기능
-Client - Host 분리 환경 구축
+
+1) Client - Host 분리 환경 구축
     - Docker container로 모델 서버(Host) 구동으로 Host-Client 분리 가능
     - API를 통한 인퍼런스로 Local server 다운 없이 지속적 인퍼런스 가능 
     - 다양한 Client 환경 (C++, Python, Rest)에서 API로 인퍼런스 가능
     - TFlite, TF 버전 변경에 따른 작업 최소화 (docker container 교체를 통한 인퍼런스 환경 변경)
-모델 versioning 및 교체
+2) 모델 versioning 및 교체
     - 모델 재 학습 시에 해당 모델의 version을 지정하고, 원하는 version으로 쉽게 모델 교체 가능
     - 모델 교체 시 API에서 모델 version 이름만 바꿔주면 되므로 downtime 없이 모델 교체 가능
       (모델 교체 시 환경 재설정 및 테스트를 진행할 필요가 없음)
-유연한 인퍼런스 환경 구축
+3) 유연한 인퍼런스 환경 구축
     - 기존 모델이 양산에 있는 상태에서, 신규 모델을 배포 하여 두 개의 모델이 함께 성능 비교 진행 가능
       (즉, 기존 모델을 바로 내릴 필요가 없음)  
       Ex) 기존 모델에 100%, 신규 모델에 20%의 샘플에 대해 판정 요청
-Batching 처리
+4) Batching 처리
     - 판정 데이터 Batching으로 동시에 인퍼런스 진행하여 throughput 향상 및 latency 향상
       (이미지 한장이 아닌 여러장을 묶어서 한꺼번에 인퍼런스를 처리 함)
     - 다수의 인퍼런스 요청시 동시다발적으로 받을 경우, 최적의 인퍼런스 batching을 구성하여 latency 극대화
