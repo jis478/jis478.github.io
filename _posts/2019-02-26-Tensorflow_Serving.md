@@ -1,4 +1,7 @@
-Tensorflow Saving / Tensorflow Serving 정리   
+---
+title: "Tensorflow Saving / Tensorflow Serving 정리"   
+---
+
 1. Saving
 Tensorflow에서 Save를 한다는 것의 의미는 무엇인가?
 기본적으로 Tensorflow의 모든 entities는 Protobuf record라는 형식으로 저장/로딩이 된다. Protobuf는 기본적으로는 binary 포맷으로 만들어졌으며, 구글에서 분산처리 시스템에서 통신을 위해 주로 쓰고 있는 파일 형식이다.
