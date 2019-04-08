@@ -1,0 +1,66 @@
+
+다음의 차이들.. gpu와 cpu에서 각각 일어나는 계산인듯한데, 기본적으로 나는 단순히 tf는 gpu에서 일어나고, np는 cpu에서 일어난다고 생각했었다. eager 환경에서는 tf와 np가 서로 교차해서 쓰일 수 있음에 따라 둘의 경계가 굉장히 모호해지는 것 같네. 아래에 대해서 각각 실행해보고 그 원리를 알아보자
+
+Q1.
+import time
+s = time.time()
+x = tf.random.normal([2,2])
+if tf.test.is_gpu_available():
+  with tf.device("/gpu:0"):
+    for i in range(100):
+      x = tf.matmul(x,x)
+print(time.time() - s)  
+
+Q2.
+import time
+s = time.time()
+x = tf.random.normal([2,2])
+if tf.test.is_gpu_available():
+  with tf.device("/gpu:0"):
+    for i in range(100):
+      x = np.matmul(x,x)
+print(time.time() - s)  
+
+Q3.
+import time
+s = time.time()
+x = np.random.random([2,2])
+if tf.test.is_gpu_available():
+  with tf.device("/gpu:0"):
+    for i in range(100):
+      x = np.matmul(x,x)
+print(time.time() - s)  
+
+Q4.
+import time
+s = time.time()
+x = np.random.random([2,2])
+with tf.device("/cpu:0"):
+  for i in range(100):
+    x = np.matmul(x,x)
+print(time.time() - s)  
+
+Q5.
+import time
+s = time.time()
+x = np.random.random([2,2])
+with tf.device("/cpu:0"):
+  for i in range(100):
+    x = tf.matmul(x,x)
+print(time.time() - s)  
+
+Q6.
+import time
+s = time.time()
+x = np.random.random([2,2])
+for i in range(100):
+  x = tf.matmul(x,x)
+print(time.time() - s)  
+
+Q7.
+import time
+s = time.time()
+x = tf.random.normal([2,2])
+for i in range(100):
+  x = np.matmul(x,x)
+print(time.time() - s)  
