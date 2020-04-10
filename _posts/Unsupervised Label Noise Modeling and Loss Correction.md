@@ -1,22 +1,25 @@
-Unsupervised Label Noise Modeling and Loss Correction
+# Unsupervised Label Noise Modeling and Loss Correction
 
-1.	introduction
+## 1.	introduction
 Noisy labels는 CNN 구조의 네트워크에 의해 쉽게 fitting 되는 것이 증명되었으며, 이는 모델의 일반화 성능을 약화시키게된다. -> (LGD 모델 tensorboard 그래프에서도 비슷한 현상이 존재 함) 처음에는 noisy label loss가 높다가 나중에는 fitting해서 loss가 낮아짐. 즉, 모델이 일부 noise에 fitting하게 되는 현상이 발생하는 것이다.
+
  
 
 기존의 논문들은 이러한 noise label에 대해 주로 loss를 수정하는 것으로 대응해왔다. 예를 들어 bootstrapping loss의 경우 perpetual consistency term을 도입하는데, 이는 noisy sample로 인해 발생하는 에러를 보상해 주기 위해 network의 예측 값에 추가 보상을 하는 방법이다.
 다른 방법으로는 각 class별 noise를 예측하여 class 확률을 수정하는 방법이 있으며, Curriculum learning처럼 쉬운 sample을 우선적으로 학습하는 방법도 존재 한다.
+
 물론 noisy sample를 버릴 수도 있지만, 이는 sample도 모집단에서 나온 데이터 이기 때문에 sample 가진 중요한 data 분포에 대한 정보를 함께 버릴 수 있는 리스크가 존재한다. 
+
 한편, mixup data augmentation을 활용할 경우 모델 구조나 loss 변경 없이 noise label에 강한 모델을 생성 할 수 있는 것도 증명되었다
 본 논문은, 데이터 셋 내 아주 높은 비중의 noisy label이 존재하더라도 모델이 noisy ///////label에 fitting하는 것을 피할 수 있는 강인한 학습 방법에 대해 소개 한다. 또한 noisy sample을 버리는 것이 아닌, visual representations을 배우는데 함께 활용하는 장점이 있다. 
-특히, 기존의 논문들은 대부분 별도의 clean data가 있다는 가정하에 알고리즘을 제시했지만, 본 논문에서는각 샘플의 loss를 기반으로 label noise에 대한 unsupervised model을 제시 하는 차별점이 있다.
-즉, clean과 noisy sample들을 two-component (clean-noisy) Beta Mixture Model (BMM)의 sample로 보고 각각의 loss 값을 BMM에 fitting 시킴으로써 unsupervised model이 될 수 있는 것이다. 
+특히, 기존의 논문들은 대부분 별도의 clean data가 있다는 가정하에 알고리즘을 제시했지만, 본 논문에서는각 샘플의 loss를 기반으로 label noise에 대한 unsupervised model을 제시 하는 차별점이 있다. 즉, clean과 noisy sample들을 two-component (clean-noisy) Beta Mixture Model (BMM)의 sample로 보고 각각의 loss 값을 BMM에 fitting 시킴으로써 unsupervised model이 될 수 있는 것이다. 
 각 모델의 가정하에서 posterior 확률분포는 dynamically weighted bootsrapping loss를 구현하는데 쓰이며, 이 loss를 구하는데 있어서 noisy sample를 활용하게 된다. 
-본 논문이 제안하는 장점은 아래와 같은 4가지로 요약될 수 있다.
-1.	각 개별적 sample loss에 기반을 둔, 간단하지만 강력한 unsupervised noise label 모델링
-2.	unsupervised noise label model을 활용하여 각 sample loss을 보정함으로써 label noise에 overfitting을 방지할 수 있음
-3.	mix-up augmentation과 결합해서 모델의 robustness 향상 
-4.	극단적인 label noise (예: noise > 80%) 상황에서도 loss의 convergence를 이룰 수 있는 mix-up data augmentation 활용
+
+### 본 논문이 제안하는 장점은 아래와 같은 4가지로 요약될 수 있다.
+#### 1.	각 개별적 sample loss에 기반을 둔, 간단하지만 강력한 unsupervised noise label 모델링
+#### 2.	unsupervised noise label model을 활용하여 각 sample loss을 보정함으로써 label noise에 overfitting을 방지할 수 있음
+#### 3.	mix-up augmentation과 결합해서 모델의 robustness 향상 
+#### 4.	극단적인 label noise (예: noise > 80%) 상황에서도 loss의 convergence를 이룰 수 있는 mix-up data augmentation 활용
 
 3. Leaning with label noise
 ** 이제 다룰 주요 내용은 아래 Eq (1)의 Categorical cross entropy loss를 어떻게 noise label을 잘 다룰 수 있는 loss로 바꿀 것인가에 대한 것임 **
