@@ -107,7 +107,7 @@ analytics:
 author:
   name             : "Mark Kim"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "Learn more about DL since it's fun fun fun!"
+  bio              : ""
   location         : "Seoul"
   email            :
   links:
