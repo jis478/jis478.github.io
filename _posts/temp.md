@@ -1,3 +1,9 @@
+layout: post
+title: "Test math"
+author: Haixing Hu
+category: misc
+tags: [test]
+use_math: true
 
 ---
 use_math: true
