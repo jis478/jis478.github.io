@@ -1,4 +1,5 @@
 ---
+title: "임시"   
 tags:
   - Blog
   - MathJax
