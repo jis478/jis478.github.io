@@ -1,11 +1,9 @@
-layout: post
-title: "Test math"
-author: Haixing Hu
-category: misc
-tags: [test]
-use_math: true
-
 ---
+tags:
+  - Blog
+  - MathJax
+  - Jekyll
+  - LaTeX
 use_math: true
 ---
 
