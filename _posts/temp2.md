@@ -27,7 +27,8 @@
 #### 2) Low : 여신강림 fine-tuned    high: Anime pre-trained
 
 - 8x8에서 blending 된 경우에는 여선강림의 8x8 global structure가 남아있는 상태에서 16x16 이상의 local feature은 모두 Anime pre-trained 에서 오는 효과 
-- pose가 여신강림의 pose이기 떄문에 다양함 (anime dataset은 모두 정면(frontal) 이미지 임)
+  - pose가 여신강림의 pose이기 떄문에 다양함 (anime dataset은 모두 정면(frontal) 이미지 임)
+  - 여신강림 이미지는 모두 face zoom이 되어있어서 화면에 얼굴이 가능찬 anime 같은 이미지 생성
 - bleding resolution 이 높아질 수록 여신강림 + Anime feature가 서로 혼합해서 나타나고 있음 (global은 여신강림, local은 anime) 
   (예: 32x32에서 머리 스타일은 모두 여신강림이지만, 색감은 Anime dataset임)
   
