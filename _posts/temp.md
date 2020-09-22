@@ -19,9 +19,8 @@
   - Ukiyoe 이미지를 fine-tuning으로 학습한다면 인물 pose가 모두 ukiyoe에 있는 측면 pose를 가진 이미지가 생성
   - 이미지 수량이 부족하므로 Fine-tuning 결과가 자연스럽지 못할 수 있는 단점 존재 (얼굴 형태 어그러짐 등; link) 
 
-
-
-
+<\br>
+<\br>
 
 #### Approch #1 이미지 생성
 
@@ -39,9 +38,8 @@
   4) Blended network로 이미지 생성 
       - random variable 추출 -> Blended network (decoder)로 이미지 생성
 
-
-
-
+<\br>
+<\br>
 
 #### Approch #2 이미지 변환
 ---
@@ -52,6 +50,9 @@
       - latent feature -> Blended network (decoder)로 이미지 생성
 
 
+<\br>
+<\br>
+<\br>
 
 
 
