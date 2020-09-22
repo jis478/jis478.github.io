@@ -19,8 +19,9 @@
   - Ukiyoe 이미지를 fine-tuning으로 학습한다면 인물 pose가 모두 ukiyoe에 있는 측면 pose를 가진 이미지가 생성
   - 이미지 수량이 부족하므로 Fine-tuning 결과가 자연스럽지 못할 수 있는 단점 존재 (얼굴 형태 어그러짐 등; link) 
 
-<\br>
-<\br>
+
+
+
 
 #### Approch #1 이미지 생성
 
@@ -38,11 +39,11 @@
   4) Blended network로 이미지 생성 
       - random variable 추출 -> Blended network (decoder)로 이미지 생성
 
-<\br>
-<\br>
+
+
 
 #### Approch #2 이미지 변환
----
+
 - Approach #1을 조금 변형하면 Stylegan을 이미지 generation이 아닌 translation으로도 활용 가능함. 예를 들어 FFHQ 사람 이미지를 Ukiyoe로 변환하고 싶은 경우, 마지막 이미지 생성 단계를 아래와 같이 수정 할 수 있음.
 
   4) Blended network로 인퍼런스 수행 
@@ -50,15 +51,11 @@
       - latent feature -> Blended network (decoder)로 이미지 생성
 
 
-<\br>
-<\br>
-<\br>
-
 
 
 
 ## 3. Case Study
----
+
 
 #### 3.1 Ukiyoe
 - 대략 수천장의 이미지를 사용했다고 함
