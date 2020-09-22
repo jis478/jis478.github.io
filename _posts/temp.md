@@ -18,8 +18,10 @@
 - 하지만, 단순히 fine-tuning 할 경우에 기존 base network의 weight가 유실되어 base network가 가진 feature들을 활용하기가 어려워짐
   - Ukiyoe 이미지를 fine-tuning으로 학습한다면 인물 pose가 모두 ukiyoe에 있는 측면 pose를 가진 이미지가 생성
   - 이미지 수량이 부족하므로 Fine-tuning 결과가 자연스럽지 못할 수 있는 단점 존재 (얼굴 형태 어그러짐 등; link) 
-  
-- 하지만, network bleding을 사용한다면 FFHQ pre-trained가 가지고 있는 정면 pose가 남은 상태에서 texture가 Ukiyoe 특징을 가진 이미지를 생성 할 수가 있음
+
+#### Approch #1 이미지 생성
+
+ 하지만, network bleding을 사용한다면 FFHQ pre-trained가 가지고 있는 정면 pose가 남은 상태에서 texture가 Ukiyoe 특징을 가진 이미지를 생성 할 수가 있음
 
   1) FFHQ dataset pre-trained network 준비 
   
@@ -35,7 +37,9 @@
 
 
 
-- 이를 조금 변형하면 Stylegan을 이미지 generation이 아닌 translation으로도 활용 가능함. 예를 들어 FFHQ 사람 이미지를 Ukiyoe로 변환하고 싶은 경우, 마지막 이미지 생성 단계를 아래와 같이 수정 할 수 있음.
+#### Approch #2 이미지 변환
+
+- Approach #1을 조금 변형하면 Stylegan을 이미지 generation이 아닌 translation으로도 활용 가능함. 예를 들어 FFHQ 사람 이미지를 Ukiyoe로 변환하고 싶은 경우, 마지막 이미지 생성 단계를 아래와 같이 수정 할 수 있음.
 
   4) Blended network로 인퍼런스 수행 
       - FFHQ 이미지 -> FFHQ pre-trained network (encoder) 로 latent feature 생성 
