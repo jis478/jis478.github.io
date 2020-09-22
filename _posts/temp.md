@@ -3,14 +3,14 @@
 
 
 ## 1. 참고자료
----
+
 <https://www.justinpinkney.com/ukiyoe-yourself>
 <https://www.justinpinkney.com/toonify-yourself/>
 <https://twitter.com/Norod78/status/1297541204104507397/photo/1>
 
 
 ## 2. 소개
----
+
 - 두 개의 stylegan network (base, fine-tuned) 를 layer단위로 bleding 하는 기법으로써, justin pinkney가 제안 (논문이 아닌 개인 tech 블로그 개제)
 - Stylegan의 경우 서로 다른 layer가 다른 level의 feature를 생성한다는 것에 착안 함. 
   예시) Low resolution layer는 global structure 생성 (pose 등)
@@ -21,8 +21,10 @@
 
 
 
+
+
 #### Approch #1 이미지 생성
----
+
  하지만, network bleding을 사용한다면 FFHQ pre-trained가 가지고 있는 정면 pose가 남은 상태에서 texture가 Ukiyoe 특징을 가진 이미지를 생성 할 수가 있음
 
   1) FFHQ dataset pre-trained network 준비 
@@ -39,6 +41,8 @@
 
 
 
+
+
 #### Approch #2 이미지 변환
 ---
 - Approach #1을 조금 변형하면 Stylegan을 이미지 generation이 아닌 translation으로도 활용 가능함. 예를 들어 FFHQ 사람 이미지를 Ukiyoe로 변환하고 싶은 경우, 마지막 이미지 생성 단계를 아래와 같이 수정 할 수 있음.
@@ -46,6 +50,9 @@
   4) Blended network로 인퍼런스 수행 
       - FFHQ 이미지 -> FFHQ pre-trained network (encoder) 로 latent feature 생성 
       - latent feature -> Blended network (decoder)로 이미지 생성
+
+
+
 
 
 
