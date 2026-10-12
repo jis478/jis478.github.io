@@ -1459,6 +1459,12 @@ body {
 .hero-blog { min-width: 0; }
 .hero-blog > .section-title { font-size: 1.4rem; margin-bottom: 1rem; }
 .hero-blog-card .project-img img { object-fit: contain; background: white; }
+.hero-blog-author {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.65rem;
+}
 .hero-blog-description {
   font-size: 0.84rem;
   line-height: 1.6;
