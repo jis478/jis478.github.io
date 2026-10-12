@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Mark Kim's blog — thoughts on LLMs, generative AI, and engineering at scale.">
+  <title>Blog — Mark Kim</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">Mark<span>.</span></a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html#about">About</a>
+        <a href="index.html#experience">Experience</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#research">Research</a>
+        <a href="blog.html" class="active">Blog</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="blog-hero container">
+      <p class="section-label">Writing</p>
+      <h1>Blog</h1>
+      <p>Thoughts on LLMs, generative AI, and engineering large-scale AI systems.</p>
+    </div>
+
+    <div class="blog-list container">
+      <div class="blog-posts">
+
+        <!-- Add new posts above this line, following the same pattern -->
+
+        <a href="blog/building-production-llm-pipelines.html" class="blog-post-item">
+          <div>
+            <div class="blog-card-meta" style="margin-bottom: 0.5rem;">
+              <span class="blog-tag">LLM Engineering</span>
+            </div>
+            <h2 class="blog-post-title">Building Production LLM Pipelines: Lessons from the Trenches</h2>
+            <p class="blog-post-excerpt">What nobody tells you about running LLM workloads at scale — from async architecture decisions to evaluation infrastructure that actually catches regressions before they hit users.</p>
+          </div>
+          <div class="blog-post-meta">
+            <span class="blog-post-date">May 2025</span>
+            <div class="blog-post-tags">
+              <span class="tag">LLM</span>
+              <span class="tag">FastAPI</span>
+            </div>
+          </div>
+        </a>
+
+      </div>
+
+      <p style="margin-top: 3.5rem; font-size: 0.85rem; color: var(--text-3); text-align: center;">
+        More posts coming soon.
+        Reach out via <a href="mailto:mark.kim.596596@gmail.com" style="color: var(--accent); text-decoration: underline; text-decoration-color: var(--accent-mid);">email</a> to discuss a topic.
+      </p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-brand">Mark Kim</span>
+      <span class="footer-copy">© 2025 Mark Kim</span>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="https://github.com/jis478" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  </script>
+</body>
+</html>

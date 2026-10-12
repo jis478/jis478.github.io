@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  BLOG POST TEMPLATE — copy this file to write a new post    ║
+  ║                                                              ║
+  ║  1. Copy this file:  cp building-production-llm-pipelines.html my-new-post.html
+  ║  2. Update <title>, meta description, post-title, post-date, post-reading-time
+  ║  3. Update the tags in post-meta and post-tags sections
+  ║  4. Replace the post-content with your writing
+  ║  5. Add a link to it in ../blog.html (copy one blog-post-item block)
+  ║  6. Optionally add it as a blog-card on ../index.html
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Lessons from building and operating LLM pipelines at scale — architecture patterns, evaluation strategies, and production pitfalls.">
+  <title>Building Production LLM Pipelines — Mark Kim</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-brand">Mark<span>.</span></a>
+      <nav class="nav-links" id="navLinks">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#experience">Experience</a>
+        <a href="../index.html#projects">Projects</a>
+        <a href="../index.html#research">Research</a>
+        <a href="../blog.html" class="active">Blog</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <div class="post-hero">
+      <a href="../blog.html" class="post-back">← Back to Blog</a>
+
+      <h1 class="post-title">Building Production LLM Pipelines: Lessons from the Trenches</h1>
+
+      <div class="post-meta">
+        <span class="post-date">May 2025</span>
+        <span class="post-reading-time">8 min read</span>
+        <div class="post-tags">
+          <span class="tag">LLM Engineering</span>
+          <span class="tag">FastAPI</span>
+          <span class="tag">Production</span>
+        </div>
+      </div>
+    </div>
+
+    <article class="post-content">
+
+      <p>
+        There's a significant gap between "running an LLM in a notebook" and "running an LLM reliably in production for thousands of users." Having spent the last few years building and operating LLM systems at scale, I want to share the patterns that have worked and the mistakes I've made along the way.
+      </p>
+
+      <h2>The Async Architecture Decision Is Make-or-Break</h2>
+
+      <p>
+        The most consequential early decision in any LLM pipeline is whether to run synchronously or asynchronously. For anything beyond a simple chatbot, the answer is almost always async — but the reasoning matters.
+      </p>
+
+      <p>
+        LLM inference is slow. A complex chain with multiple model calls, retrieval, and tool use can easily take 30–120 seconds. If you expose that as a synchronous HTTP endpoint, you're going to hit connection timeouts, your users will stare at loading spinners, and your servers will be pinned waiting for model responses.
+      </p>
+
+      <p>
+        The pattern I've landed on is a <strong>FastAPI + Celery + RabbitMQ</strong> stack:
+      </p>
+
+      <ul>
+        <li>FastAPI accepts the request, validates input, and immediately returns a task ID</li>
+        <li>Celery workers consume from the queue and handle the actual LLM work</li>
+        <li>Clients poll for status or receive a webhook callback when done</li>
+      </ul>
+
+      <p>
+        This decouples request acceptance from processing, lets you scale workers independently, and gives you natural retry semantics for failures.
+      </p>
+
+      <pre><code># Simplified task submission pattern
+@app.post("/tasks/translate")
+async def submit_translation(request: TranslationRequest) -> TaskResponse:
+    task_id = str(uuid4())
+    task = run_translation.delay(
+        task_id=task_id,
+        content=request.content,
+        target_language=request.language,
+    )
+    return TaskResponse(task_id=task_id, status="queued")
+
+@app.get("/tasks/{task_id}")
+async def get_task_status(task_id: str) -> TaskStatusResponse:
+    result = AsyncResult(task_id)
+    return TaskStatusResponse(
+        task_id=task_id,
+        status=result.status,
+        result=result.result if result.ready() else None,
+    )</code></pre>
+
+      <h2>Evaluation Infrastructure Is Not Optional</h2>
+
+      <p>
+        One of the biggest mistakes I made early was treating LLM evaluation as something to "do later." The problem with LLMs is that they degrade silently. A model provider updates their API, your prompt templates shift slightly, and suddenly your outputs are worse — but you have no automated signal telling you that.
+      </p>
+
+      <p>
+        The minimum viable evaluation stack I now set up from the start:
+      </p>
+
+      <ul>
+        <li><strong>A golden dataset</strong> — 50–200 hand-curated input/output pairs covering your core use cases and edge cases</li>
+        <li><strong>Automated scoring</strong> — LLM-as-a-judge for semantic quality, plus deterministic checks for format and constraints</li>
+        <li><strong>Regression gates</strong> — CI/CD step that blocks deploys if eval scores drop more than X% versus baseline</li>
+        <li><strong>Tracing</strong> — LangFuse or similar to log every prompt/completion pair in production</li>
+      </ul>
+
+      <p>
+        The combination of a golden dataset and tracing lets you do something powerful: when you see a production failure, you can add that case to your golden set, reproduce it locally, and verify your fix before deploying.
+      </p>
+
+      <h2>Prompt Engineering at Scale</h2>
+
+      <p>
+        Prompt engineering stops being about clever phrasing once you're at scale. The challenges become:
+      </p>
+
+      <ul>
+        <li><strong>Version control</strong> — prompts need to be versioned like code, with a clear process for testing changes</li>
+        <li><strong>Parameterization</strong> — large portions of your prompt are dynamic; keeping templates readable matters</li>
+        <li><strong>Context window management</strong> — you will hit limits; you need explicit strategies for what to truncate and how</li>
+        <li><strong>Model-specific tuning</strong> — the same prompt behaves differently across GPT-4, Claude, and Llama; abstract this cleanly</li>
+      </ul>
+
+      <p>
+        I treat prompts as first-class artifacts with their own test coverage. A prompt change goes through the same review process as a code change — because functionally, it is one.
+      </p>
+
+      <h2>Failure Modes to Anticipate</h2>
+
+      <p>
+        Here are the failure modes that have surprised me most in production, roughly in order of how often I've encountered them:
+      </p>
+
+      <ol>
+        <li><strong>Model API rate limiting</strong> — implement exponential backoff from day one, not as an afterthought</li>
+        <li><strong>Non-deterministic outputs breaking downstream parsing</strong> — always validate structured output schemas; never trust that the model will return valid JSON</li>
+        <li><strong>Context drift in long chains</strong> — earlier parts of a long pipeline influencing later steps in unexpected ways; add explicit context resets</li>
+        <li><strong>Cost explosions from runaway retries</strong> — set hard budget limits per task; a retry loop hitting a confused model can burn significant spend</li>
+        <li><strong>Silent quality degradation</strong> — addressed by evaluation infrastructure above, but it's common enough to call out twice</li>
+      </ol>
+
+      <h2>Observability Is Leverage</h2>
+
+      <p>
+        Every hour I've invested in observability has paid back many times over. At minimum, log:
+      </p>
+
+      <ul>
+        <li>Task ID, model used, prompt version, and output for every LLM call</li>
+        <li>Latency at each stage of your pipeline (not just end-to-end)</li>
+        <li>Token counts (input and output) for cost tracking</li>
+        <li>Any validation failures or retry events</li>
+      </ul>
+
+      <p>
+        When you're debugging a production issue at 2am, rich traces are the difference between a 10-minute fix and a 3-hour investigation.
+      </p>
+
+      <h2>Closing Thoughts</h2>
+
+      <p>
+        The core insight from years of this work: LLM engineering is less about the models and more about the infrastructure around them. The model is just a function call. The hard problems are reliability, observability, evaluation, and cost management — the same problems you'd face with any unreliable external dependency, just with a unique failure mode taxonomy.
+      </p>
+
+      <p>
+        Build the boring infrastructure first. The creative prompt work is more fun, but it's the scaffolding that determines whether your system survives contact with production.
+      </p>
+
+      <hr>
+
+      <p style="font-size: 0.875rem; color: var(--text-3); font-style: italic;">
+        If you're working on similar problems or want to compare notes, feel free to reach out via
+        <a href="mailto:mark.kim.596596@gmail.com">email</a> or
+        <a href="https://www.linkedin.com/in/mark-kim-18431346/" target="_blank" rel="noopener">LinkedIn</a>.
+      </p>
+
+    </article>
+
+    <div class="post-footer">
+      <a href="../blog.html" class="post-back">← Back to Blog</a>
+      <a href="../index.html#contact" class="btn btn-ghost" style="font-size: 0.85rem; padding: 0.5rem 1rem;">Get in touch</a>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-brand">Mark Kim</span>
+      <span class="footer-copy">© 2025 Mark Kim</span>
+      <div class="footer-links">
+        <a href="../index.html">Home</a>
+        <a href="../blog.html">Blog</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 20));
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  </script>
+</body>
+</html>
