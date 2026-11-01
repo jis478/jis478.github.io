@@ -17,8 +17,6 @@
     <div class="nav-inner">
       <a href="#" class="nav-brand">Mark<span>.</span></a>
       <nav class="nav-links" id="navLinks">
-        <a href="#experience">Experience</a>
-        <a href="#education">Education</a>
         <a href="#projects">Projects</a>
         <a href="#research">Research</a>
         <a href="#awards">Patents</a>
@@ -47,9 +45,30 @@
             <p class="hero-bio">
               I am an AI engineer with extensive experience in Generative AI, LLMs, and agentic workflows, combining research, development, and production implementation. I have hands-on experience building end-to-end AI systems, including backend services, model serving, and API integration, while leading agentic workflow projects.
             </p>
-            <p class="hero-bio">
-              I am an out-of-the-box thinker, tackling challenging AI problems with innovative, practical solutions. Driven by a deep curiosity for AI, I spend time every day exploring new research, experimenting with ideas, and building on what I learn.
-            </p>
+            <div class="hero-social">
+              <a href="https://www.linkedin.com/in/mark-kim-18431346/" class="social-link linkedin-link" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 2H3.55C2.69 2 2 2.68 2 3.52v16.96c0 .84.69 1.52 1.55 1.52h16.9c.86 0 1.55-.68 1.55-1.52V3.52c0-.84-.69-1.52-1.55-1.52ZM7.93 18.75H4.98V9.2h2.95v9.55ZM6.46 7.9a1.71 1.71 0 1 1 0-3.42 1.71 1.71 0 0 1 0 3.42Zm12.29 10.85H15.8V14.1c0-1.11-.02-2.54-1.55-2.54-1.55 0-1.79 1.21-1.79 2.46v4.73H9.51V9.2h2.83v1.3h.04c.4-.76 1.36-1.56 2.79-1.56 2.98 0 3.58 1.96 3.58 4.51v5.3Z"/></svg>
+                LinkedIn
+              </a>
+            </div>
+            <section class="hero-interests" aria-labelledby="research-interests-title">
+              <h2 id="research-interests-title">Research Interests</h2>
+              <p>I’m especially interested in how AI agents learn from experience, retain useful knowledge, and make better decisions over time.</p>
+              <dl>
+                <div>
+                  <dt>Agent Memory</dt>
+                  <dd>Episodic and semantic memory, retrieval, and memory consolidation: how agents preserve relevant context, update what they know, and apply past experience to new tasks.</dd>
+                </div>
+                <div>
+                  <dt>World Models &amp; Decision-Making</dt>
+                  <dd>JEPA-style predictive representations and action-conditioned world models: how agents can anticipate the consequences of actions and use those predictions for planning.</dd>
+                </div>
+                <div>
+                  <dt>Local LLMs</dt>
+                  <dd>Running and adapting open-weight models on local hardware, exploring quantization, efficient inference, and the tradeoffs between model quality, memory use, and latency.</dd>
+                </div>
+              </dl>
+            </section>
             <div class="hero-social">
               <a href="#projects" class="social-link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
@@ -70,151 +89,56 @@
             </div>
           </div>
 
-
-
-          <section class="hero-blog" aria-label="Featured article">
-            <a class="project-card hero-blog-card" href="https://www.langchain.com/blog/customers-webtoon" target="_blank" rel="noopener">
-              <div class="project-img">
-                <img src="assets/projects/metadata_thumb.jpg" alt="WEBTOON’s LangGraph agent workflow diagram" width="800" height="450">
-              </div>
-              <div class="project-card-body">
-                <span class="project-year">LangChain · May 2025</span>
-                <h3 class="project-title">How WEBTOON built agentic workflows with LangGraph to scale story understanding</h3>
-                <p class="hero-blog-author">Written by Mark Kim</p>
-              </div>
-            </a>
-          </section>
-
         </div>
       </div>
     </section>
 
-    <!-- ── Experience ── -->
-    <section id="experience" class="section">
+    <section class="hero-blog" aria-labelledby="featured-writing-title">
       <div class="container">
-        <div class="section-header fade-up">
-          <p class="section-label">Career</p>
-          <h2 class="section-title">Experience</h2>
-        </div>
-        <div class="timeline">
-
-          <div class="timeline-item fade-up">
-            <div class="timeline-meta">
-              <span class="timeline-date">Sep 2020 – Mar 2026</span>
-              <span class="timeline-location">Seoul, South Korea</span>
-            </div>
-            <div class="timeline-content">
-              <div class="timeline-company">
-                <img src="assets/logos/webtoon.png" alt="Webtoon Entertainment" class="timeline-logo">
-                <div class="timeline-company-info">
-                  <a href="https://www.webtoons.com" class="timeline-company-name" target="_blank" rel="noopener">NAVER WEBTOON (Webtoon Entertainment)</a>
-                  <span class="timeline-company-desc">Global digital comics platform · NASDAQ: WBTN · South Korea</span>
-                </div>
-              </div>
-              <h3 class="timeline-role">Senior AI Engineer</h3>
-
-              <ul class="timeline-bullets">
-                <li>Built production-grade LLM pipelines and agentic workflows for large-scale, multi-language content localization</li>
-                <li>Performance optimization and systematic experimentation across open-source and closed-source LLMs — improving accuracy, reliability, and observability</li>
-                <li>Architected end-to-end generative image systems using Stable Diffusion and GANs for global B2C services, including scalable inference pipelines, automated quality control, and NSFW filtering</li>
-              </ul>
-            </div>
+        <h2 class="section-title" id="featured-writing-title">Featured Writing</h2>
+        <a class="project-card hero-blog-card" href="https://www.langchain.com/blog/customers-webtoon" target="_blank" rel="noopener">
+          <div class="project-img">
+            <img src="assets/projects/metadata_thumb.jpg" alt="WEBTOON’s LangGraph agent workflow diagram" width="800" height="450">
           </div>
-
-          <div class="timeline-item fade-up">
-            <div class="timeline-meta">
-              <span class="timeline-date">May 2017 – Aug 2020</span>
-              <span class="timeline-location">Seoul, South Korea</span>
-            </div>
-            <div class="timeline-content">
-              <div class="timeline-company">
-                <img src="assets/logos/lgcns.png" alt="LG CNS" class="timeline-logo">
-                <div class="timeline-company-info">
-                  <a href="https://www.lgcns.com" class="timeline-company-name" target="_blank" rel="noopener">LG CNS</a>
-                  <span class="timeline-company-desc">IT services &amp; AI solutions arm of LG Group · South Korea</span>
-                </div>
-              </div>
-              <h3 class="timeline-role">AI Engineer — Gen AI &amp; Computer Vision</h3>
-              <ul class="timeline-bullets">
-                <li>Developed GAN-based and deep learning computer vision models for manufacturing quality inspection</li>
-                <li>Designed scalable AI training and inference workflows for semiconductor, display, and chemical sectors</li>
-                <li>Built graph-based fraud detection algorithms; first application of graph embedding models for banking in Korea</li>
-              </ul>
-            </div>
+          <div class="project-card-body">
+            <span class="hero-blog-publication">Official LangChain Blog</span>
+            <span class="project-year">May 2025</span>
+            <h3 class="project-title">How WEBTOON built agentic workflows with LangGraph to scale story understanding</h3>
+            <p class="hero-blog-author">Written by Mark Kim</p>
+            <span class="hero-blog-link">Read on LangChain <span aria-hidden="true">↗</span></span>
           </div>
-
-          <div class="timeline-item fade-up">
-            <div class="timeline-meta">
-              <span class="timeline-date">Jan 2015 – Apr 2017</span>
-              <span class="timeline-location">Seoul, South Korea</span>
-            </div>
-            <div class="timeline-content">
-              <div class="timeline-company">
-                <img src="assets/logos/lgcns.png" alt="LG CNS" class="timeline-logo">
-                <div class="timeline-company-info">
-                  <a href="https://www.lgcns.com" class="timeline-company-name" target="_blank" rel="noopener">LG CNS</a>
-                  <span class="timeline-company-desc">IT services &amp; AI solutions arm of LG Group · South Korea</span>
-                </div>
-              </div>
-              <h3 class="timeline-role">Data Scientist</h3>
-              <ul class="timeline-bullets">
-                <li>Developed machine learning models for client-facing projects across banking, insurance, and telecom industries</li>
-                <li>Built fraud detection scorecards, customer relationship clustering algorithms, and VoC classification systems</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="timeline-item fade-up">
-            <div class="timeline-meta">
-              <span class="timeline-date">Aug 2007 – Mar 2012</span>
-              <span class="timeline-location">Seoul, South Korea</span>
-            </div>
-            <div class="timeline-content">
-              <div class="timeline-company">
-                <img src="assets/logos/renault.png" alt="Renault Korea" class="timeline-logo">
-                <div class="timeline-company-info">
-                  <a href="https://www.renault.co.kr" class="timeline-company-name" target="_blank" rel="noopener">Renault Korea</a>
-                  <span class="timeline-company-desc">South Korean automotive manufacturer · Renault Group subsidiary</span>
-                </div>
-              </div>
-              <h3 class="timeline-role">Quality &amp; Marketing Data Analyst</h3>
-              <ul class="timeline-bullets">
-                <li>Vehicle quality and marketing data analysis; provided insights to improve product quality and marketing strategies</li>
-              </ul>
-            </div>
-          </div>
-
-        </div>
+        </a>
       </div>
     </section>
 
-    <!-- ── Education ── -->
-    <section id="education" class="section section-alt">
+    <section class="focus-section" aria-labelledby="focus-title">
       <div class="container">
-        <div>
-          <div class="fade-up">
-            <div class="section-header">
-              <h2 class="section-title">Education</h2>
-            </div>
-            <div class="edu-list">
-              <div class="edu-item">
-                <div class="edu-icon">🎓</div>
-                <div>
-                  <div class="edu-degree">Master of Operations Research and Management Science</div>
-                  <div class="edu-school">University of Melbourne</div>
-                  <div class="edu-period">Melbourne, Australia</div>
-                </div>
-              </div>
-              <div class="edu-item">
-                <div class="edu-icon">🎓</div>
-                <div>
-                  <div class="edu-degree">B.Sc. Industrial Engineering</div>
-                  <div class="edu-school">Ajou University</div>
-                  <div class="edu-period">Suwon, South Korea</div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <h2 id="focus-title">Areas of Focus</h2>
+        <p class="focus-intro">Deep industry and academic experience, from PoC to production.</p>
+        <div class="focus-chart" role="img" aria-label="Six connected areas of focus: Local LLM, vLLM serving and quantisation; LLM Research, model behavior and evaluation; AWS/GCP, app deployment and configuration; Enterprise AI Agents, PoCs and large-scale agentic AI systems; Computer Vision, detection and segmentation for industrial applications; Data Science, ML modeling and serving.">
+          <svg class="focus-chart-grid" viewBox="0 0 400 400" aria-hidden="true">
+            <polygon class="focus-hex-outer" points="200,30 347,115 347,285 200,370 53,285 53,115" />
+            <polygon class="focus-hex-inner" points="200,87 298,143 298,257 200,313 102,257 102,143" />
+            <g class="focus-spokes">
+              <path d="M200 30V370 M53 115L347 285 M347 115L53 285" />
+            </g>
+            <polygon class="focus-hex-core" points="200,143 249,172 249,228 200,257 151,228 151,172" />
+            <g class="focus-nodes">
+              <circle cx="200" cy="30" r="7" />
+              <circle cx="347" cy="115" r="7" />
+              <circle cx="347" cy="285" r="7" />
+              <circle cx="200" cy="370" r="7" />
+              <circle cx="53" cy="285" r="7" />
+              <circle cx="53" cy="115" r="7" />
+            </g>
+          </svg>
+          <span class="focus-center" aria-hidden="true">AI<br>Engineering</span>
+          <span class="focus-label focus-top" aria-hidden="true">Local LLM<small>vLLM serving and quantisation</small></span>
+          <span class="focus-label focus-upper-right" aria-hidden="true">LLM<br>Research<small>Model behavior and evaluation</small></span>
+          <span class="focus-label focus-lower-right" aria-hidden="true">AWS/GCP<small>App deployment and configuration</small></span>
+          <span class="focus-label focus-bottom" aria-hidden="true">Enterprise AI Agents<small>PoCs and large-scale agentic AI systems</small></span>
+          <span class="focus-label focus-lower-left" aria-hidden="true">Computer<br>Vision<small>Detection and segmentation for industrial applications</small></span>
+          <span class="focus-label focus-upper-left" aria-hidden="true">Data<br>Science<small>ML modeling and serving</small></span>
         </div>
       </div>
     </section>
